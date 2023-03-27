@@ -16,6 +16,7 @@
         <div class="row">
             <div class="col-lg-6">
                 <ul class="list-group">
+                    @@foreach ($tasks as $task)
                     <li class="list-group-item" id="addNew">Todo list</li>
                     <li class="list-group-item">
                         <nav aria-label="Page navigation example">
@@ -54,7 +55,7 @@
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" value="">
                         <label class="form-check-label" for="flexCheckIndeterminate">
-                            <h5 class="title">Admin LTE 3.0 Issue
+                            <h5 class="title" data-bs-toggle="modal" data-bs-target="#exampleModal">Admin LTE 3.0 Issue
                             </h5>
                         </label>
 
@@ -64,7 +65,7 @@
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" value="">
                         <label class="form-check-label" for="flexCheckIndeterminate">
-                            <h5 class="title"><span
+                            <h5 class="title" data-bs-toggle="modal" data-bs-target="#exampleModal"><span
                                     class="label-text">Admin LTE 3.0 Issue</span>
                             </h5>
                         </label>
@@ -98,6 +99,7 @@
                             <li class="page-item"><a class="page-link" href="#" data-bs-toggle="modal"
                                     data-bs-target="#exampleModal">+</a></li>
                 </li>
+                @endforeach
                 </ul>
             </div>
 
@@ -145,18 +147,18 @@
                             console.log(text);
                         });
                     });
-                });
-            </script>
-            <script>
-                $(document).ready(function() {
-                    $('input[type=checkbox]').change(function() {
-
-                        if (this.checked) {
-                            $(this).next(".label-text").css("text-decoration-line", "line-through");
-                        } else {
-                            $(this).next(".label-text").css("text-decoration-line", "none");
-                        }
-
+                    $('#addNew').click(function(event) {
+                        $('#exampleModalLabel').text('Add New Item');
+                        $('#addItem').val("");
+                        $('#delete').hide('400');
+                        $('#saveChanges').hide('400');
+                        $('#addTask').show('400');
+                    });
+                    $('#addTask').click(function(event) {
+                        var text = $('#addItem').val();
+                        $.post('list',{'text':text},function(data){
+                        console.log(data);
+                       });
                     });
                 });
             </script>

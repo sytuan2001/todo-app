@@ -2,47 +2,29 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Todolist;
+use App\Models\Task;
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\DB;
 
-class TodolistController extends Controller
+
+class TodoListController extends Controller
 {
 
     public function index()
     {
-        $todos = DB::table('todos')->get();
-        return view('app', ['todos' => $todos]);
+        $tasks = Task::all();
+        return view('home',compact('tasks'));
     }
 
 
     public function create(Request $request)
     {
-        return $request->all();
+        $task = new Task;
+        $task->task = $request->text;
+        $task->save();
+        return 'Done';
     }
 
 
-    public function update(Request $request, $id)
-    {
-        $existingTodolist = Todolist::find($id);
 
-        if ($existingTodolist) {
-            $existingTodolist->completed = $request->Todolist['completed'] ? true : false;
-            $existingTodolist->updated_at = Carbon::now();
-            $existingTodolist->save();
-            return $existingTodolist;
-        }
-        return "Item not found";
-    }
-
-    public function destroy($id)
-    {
-        $existingTodolist = Todolist::find($id);
-        if ($existingTodolist) {
-            $existingTodolist->delete();
-            return "Item deleted";
-        }
-        return "Item not found";
-    }
+   
 }
