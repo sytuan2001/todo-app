@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('todolists', function (Blueprint $table) {
+        Schema::create('tasks', function (Blueprint $table) {
             $table->increments('id');
             $table->string('user_id');
             $table->string('title');
@@ -28,4 +28,5 @@ return new class extends Migration
     {
         Schema::dropIfExists('todolists');
     }
+    // INSERT INTO `tasks`(`user_id`, `title`, `description`, `status`, `created_at`, `updated_at`) VALUES ('Task 1','[value-2]','[value-3]','[value-4]','[value-5]','[value-6]','[value-7]')
 };

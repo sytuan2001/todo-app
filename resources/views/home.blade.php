@@ -16,8 +16,9 @@
         <div class="row">
             <div class="col-lg-6">
                 <ul class="list-group">
-                    @@foreach ($tasks as $task)
+
                     <li class="list-group-item" id="addNew">Todo list</li>
+                    {{--  @endforeach  --}}
                     <li class="list-group-item">
                         <nav aria-label="Page navigation example">
                             <ul class="pagination">
@@ -44,68 +45,53 @@
                                         <span aria-hidden="true">&raquo;</span>
                                     </a>
                                 <li class="page-item"><a class="page-link" href="#" data-bs-toggle="modal"
-                                        data-bs-target="#exampleModal">+</a></li>
+                                        data-bs-target="#exampleModalCreate">+</a></li>
+                        </nav>
 
                     </li>
+                    @foreach ($tasks as $key=>$item)
+                    <li class="list-group-item ourItem">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="">
+                            <label class="form-check-label task-item" for="flexCheckIndeterminate">
+                                <h5  data-bs-toggle="modal" data-bs-target="#exampleModal"><span
+                                        class="label-text" data-id="{{$item->id}}">{{$item->title}}</span>
+                                </h5>
+                            </label>
+                        </div>
                     </li>
-                </ul>
-                </nav>
-                </li>
-                <li class="list-group-item ourItem">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="">
-                        <label class="form-check-label" for="flexCheckIndeterminate">
-                            <h5 class="title" data-bs-toggle="modal" data-bs-target="#exampleModal">Admin LTE 3.0 Issue
-                            </h5>
-                        </label>
-
-                    </div>
-                </li>
-                <li class="list-group-item ourItem">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="">
-                        <label class="form-check-label" for="flexCheckIndeterminate">
-                            <h5 class="title" data-bs-toggle="modal" data-bs-target="#exampleModal"><span
-                                    class="label-text">Admin LTE 3.0 Issue</span>
-                            </h5>
-                        </label>
-                    </div>
-                </li>
-                <li class="list-group-item">
-                    <nav aria-label="Page navigation example">
-                        <ul class="pagination">
-
-                            <li class="page-item"><a class="page-link" href="#">
-                                    <div class="checkbox">
-                                        <input class="form-check-input" type="checkbox" value="">
-                                    </div>
-                                </a></li>
-                            <li class="page-item"><a class="page-link" href="#" id="delete"
-                                    data-bs-dismiss="modal"><svg xmlns="http://www.w3.org/2000/svg" width="16"
-                                        height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
-                                        <path
-                                            d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z" />
-                                    </svg></a></li>
-                            <li class="page-item">
-                                <a class="page-link" href="#" aria-label="Previous">
-                                    <span aria-hidden="true">&laquo;</span>
-                                </a>
-                            </li>
-
-                            <li class="page-item">
-                                <a class="page-link" href="#" aria-label="Next">
-                                    <span aria-hidden="true">&raquo;</span>
-                                </a>
-                            <li class="page-item"><a class="page-link" href="#" data-bs-toggle="modal"
-                                    data-bs-target="#exampleModal">+</a></li>
-                </li>
-                @endforeach
+                    @endforeach
+                    
                 </ul>
             </div>
 
 
-            <!-- Modal -->
+            <!-- Modal 1-->
             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Edit Task</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p>
+                                <input type="text" placeholder="Nhập ở đây" id="addItem" class="form-control">
+                            </p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                                style="display: none">Close</button>
+                            <button type="button" class="btn btn-primary" id="editTask">Add Task</button>
+                            <button type="button" class="btn btn-primary" id="saveChangesEdit">Save Changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Modal -->
+             <div class="modal fade" id="exampleModalCreate" tabindex="-1" aria-labelledby="exampleModalLabelCreate"
                 aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -123,7 +109,7 @@
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
                                 style="display: none">Close</button>
                             <button type="button" class="btn btn-primary" id="addTask">Add Task</button>
-                            <button type="button" class="btn btn-primary" id="saveChanges">Save Changes</button>
+                            {{--  <button type="button" class="btn btn-primary" id="saveChanges">Save Changes</button>  --}}
                         </div>
                     </div>
                 </div>
@@ -136,16 +122,15 @@
             </script>
             <script>
                 $(document).ready(function() {
-                    $('.ourItem').each(function() {
-                        $(this).click(function(event) {
-                            var text = $(this).text();
-                            $('#exampleModalLabel').text('Edit Item');
-                            $('#addItem').val(text);
-                            $('#delete').show('400');
-                            $('#saveChanges').show('400');
-                            $('#AddTask').hide('400');
-                            console.log(text);
-                        });
+                    $('.task-item').click(function() {
+                        var text = $(this).find('.label-text').text();
+                        $('#exampleModalLabel').text('Edit Item');
+                        $('#addItem').val(text);
+                        $('#delete').show('400');
+                        $('#saveChanges').show('400');
+                        $('#AddTask').hide('400');
+                        var id = $(this).find('.label-text').data('id');
+                        console.log(text);
                     });
                     $('#addNew').click(function(event) {
                         $('#exampleModalLabel').text('Add New Item');
@@ -156,9 +141,11 @@
                     });
                     $('#addTask').click(function(event) {
                         var text = $('#addItem').val();
-                        $.post('list',{'text':text},function(data){
-                        console.log(data);
-                       });
+                        $.post('list', {
+                            'text': text
+                        }, function(data) {
+                            console.log(data);
+                        });
                     });
                 });
             </script>
