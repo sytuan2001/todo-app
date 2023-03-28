@@ -27,7 +27,7 @@
                                             <input class="form-check-input" type="checkbox" value="">
                                         </div>
                                     </a></li>
-                                <li class="page-item"><a class="page-link" href="#"><svg
+                                <li class="page-item"><a class="page-link" href="#" ><svg
                                             xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                             fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
                                             <path
@@ -63,7 +63,7 @@
 
                 </ul>
             </div>
-
+ 
 
             <!-- Modal 1-->
             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
@@ -75,17 +75,21 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                 aria-label="Close"></button>
                         </div>
-                        <div class="modal-body">
-                            <p>
-                                <input type="text" placeholder="Nhập ở đây" id="addItem" class="form-control">
-                            </p>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-                                style="display: none">Close</button>
-                            <button type="button" class="btn btn-primary" id="editTask">Add Task</button>
-                            <button type="button" class="btn btn-primary" id="saveChangesEdit">Save Changes</button>
-                        </div>
+                        <form action="{{route('todo.create')}}" method="POST" id="form_create1">
+                            <div class="modal-body">
+                                <p>
+                                    <input type="text" placeholder="Nhập ở đây" id="addItem" class="form-control">
+                                </p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                                    style="display: none">Close</button>
+                                <button type="button" class="btn btn-primary" id="editTask">Add Task</button>
+                                <button type="button" class="btn btn-primary" id="saveChangesEdit">Save
+                                    Changes</button>
+                            </div>
+                            {{ csrf_field() }}
+                        </form>
                     </div>
                 </div>
             </div>
@@ -94,26 +98,32 @@
                 aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Add new Task</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <p>
-                                <input type="text" placeholder="Nhập ở đây" id="addItem" class="form-control">
-                            </p>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-                                style="display: none">Close</button>
-                            <button type="button" class="btn btn-primary" id="addTask">Add Task</button>
-                            {{--  <button type="button" class="btn btn-primary" id="saveChanges">Save Changes</button>  --}}
-                        </div>
+                        <form action="{{route('todo.store')}}" method="POST" id="form_create">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Add new Task</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p>
+                                    <input type="text" placeholder="Nhập ở đây" id="addItem" name="title" class="form-control">
+                                </p>
+                                <div>
+                                    <textarea name="description" class="form-group" cols="60" rows="10" placeholder="Mô tả"></textarea>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                                    style="display: none">Close</button>
+                                <button type="submit" class="btn btn-primary" id="addTask">Add Task</button>
+                                {{ csrf_field() }}
+                                {{--  <button type="button" class="btn btn-primary" id="saveChanges">Save Changes</button>  --}}
+                            </div>
+                        </form>
+                       
                     </div>
                 </div>
             </div>
-            {{ csrf_field() }}
             @if (session('status'))
                 <div class="alert alert-success">
                     {{ session('status') }}
@@ -135,13 +145,22 @@
                         console.log(text);
                     });
 
-                    $('#addTask').click(function(event) {
-                        var text = $('#addItem').val();
-                        $.post('list', {
-                            'text': text,'_token':$('input[name=_token]').val()})
-                        }, function(data)) {
-                            console.log(data);
-                        }
+                    $('#form_create').submit(function(event) {
+
+                        event.preventDefault();
+                        var dataCreate = $(this).serialize();
+                        $.ajax({
+                            type: "POST",
+                            url: $(this).attr("action"),
+                            data: dataCreate,
+                            dataType: 'json',
+                            success: function(data) {
+                                console.log(text);
+                              }
+                          });
+
+
+                        
                     });
                 });
             </script>

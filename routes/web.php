@@ -15,11 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [TaskController::class, 'index']) ;
-Route::post('/todos', [TaskController::class, 'store']) ;
+Route::post('/todos', [TaskController::class, 'store']) ->name('todo.store');
 Route::delete('/{todolist:id}', [TaskController::class, 'destroy']);
 Route::get('todo/index',[TaskController::class, 'index']) ->name('todo.index');
 Route::get('todo/create',[TaskController::class, 'create']) ->name('todo.create');
-Route::get('home',function(){
-    return view('home');
-});
-Route::get('home','TaskController@index');

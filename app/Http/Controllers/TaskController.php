@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Task;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class TaskController extends Controller
@@ -17,25 +18,24 @@ class TaskController extends Controller
 
     public function create(Request $request)
     {
-        // $task = new Task;
-        // $task->task = $request->text;
-        // $task->save();
-        return $request->all();
+        $title = new Task();
+        $title->title = $request->text;
+        $title->save();
+        return 'Done'();
     }
     public function store(Request $request)
     {
-        // validate the form
         $request->validate([
-            'task' => 'required|max:200'
+            'title' => 'required|max:200'
         ]);
 
-        // store the data
-        DB::table('todos')->insert([
-            'task' => $request->task
-        ]);
+        $data = $request->all();
+        $data['user_id'] = "1";
 
-        // redirect
-        return redirect('/')->with('status', 'Task added!');
+        Task::create($data);
+
+        return ['status'=>200];
+
     }
     public function update(Request $request, $id)
     {
