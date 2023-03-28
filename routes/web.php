@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\TodoListController;
+use App\Http\Controllers\TaskController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,11 +14,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [TodoListController::class, 'index']) ->name('index');
-Route::post('/todos', [TodoListController::class, 'store']) ->name('store');
-Route::delete('/{todolist:id}', [TodoListController::class, 'destroy']) ->name('destroy');
-Route::get('todo/index',[TodoListController::class, 'index']) ->name('todo.index');
-Route::get('todo/create',[TodoListController::class, 'create']) ->name('todo.create');
+Route::get('/', [TaskController::class, 'index']) ;
+Route::post('/todos', [TaskController::class, 'store']) ;
+Route::delete('/{todolist:id}', [TaskController::class, 'destroy']);
+Route::get('todo/index',[TaskController::class, 'index']) ->name('todo.index');
+Route::get('todo/create',[TaskController::class, 'create']) ->name('todo.create');
 Route::get('home',function(){
     return view('home');
 });
+Route::get('home','TaskController@index');

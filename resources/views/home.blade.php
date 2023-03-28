@@ -18,7 +18,6 @@
                 <ul class="list-group">
 
                     <li class="list-group-item" id="addNew">Todo list</li>
-                    {{--  @endforeach  --}}
                     <li class="list-group-item">
                         <nav aria-label="Page navigation example">
                             <ul class="pagination">
@@ -49,19 +48,19 @@
                         </nav>
 
                     </li>
-                    @foreach ($tasks as $key=>$item)
-                    <li class="list-group-item ourItem">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="">
-                            <label class="form-check-label task-item" for="flexCheckIndeterminate">
-                                <h5  data-bs-toggle="modal" data-bs-target="#exampleModal"><span
-                                        class="label-text" data-id="{{$item->id}}">{{$item->title}}</span>
-                                </h5>
-                            </label>
-                        </div>
-                    </li>
+                    @foreach ($tasks as $key => $item)
+                        <li class="list-group-item ourItem">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="">
+                                <label class="form-check-label task-item" for="flexCheckIndeterminate">
+                                    <h5 data-bs-toggle="modal" data-bs-target="#exampleModal"><span class="label-text"
+                                            data-id="{{ $item->id }}">{{ $item->title }}</span>
+                                    </h5>
+                                </label>
+                            </div>
+                        </li>
                     @endforeach
-                    
+
                 </ul>
             </div>
 
@@ -90,8 +89,8 @@
                     </div>
                 </div>
             </div>
-            <!-- Modal -->
-             <div class="modal fade" id="exampleModalCreate" tabindex="-1" aria-labelledby="exampleModalLabelCreate"
+            <!-- Modal 2-->
+            <div class="modal fade" id="exampleModalCreate" tabindex="-1" aria-labelledby="exampleModalLabelCreate"
                 aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -115,6 +114,11 @@
                 </div>
             </div>
             {{ csrf_field() }}
+            @if (session('status'))
+                <div class="alert alert-success">
+                    {{ session('status') }}
+                </div>
+            @endif
             <script src="https://code.jquery.com/jquery-3.6.4.min.js"
                 integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"
@@ -126,26 +130,18 @@
                         var text = $(this).find('.label-text').text();
                         $('#exampleModalLabel').text('Edit Item');
                         $('#addItem').val(text);
-                        $('#delete').show('400');
-                        $('#saveChanges').show('400');
-                        $('#AddTask').hide('400');
+                        $('#addTask').hide('400');
                         var id = $(this).find('.label-text').data('id');
                         console.log(text);
                     });
-                    $('#addNew').click(function(event) {
-                        $('#exampleModalLabel').text('Add New Item');
-                        $('#addItem').val("");
-                        $('#delete').hide('400');
-                        $('#saveChanges').hide('400');
-                        $('#addTask').show('400');
-                    });
+
                     $('#addTask').click(function(event) {
                         var text = $('#addItem').val();
                         $.post('list', {
-                            'text': text
-                        }, function(data) {
+                            'text': text,'_token':$('input[name=_token]').val()})
+                        }, function(data)) {
                             console.log(data);
-                        });
+                        }
                     });
                 });
             </script>
